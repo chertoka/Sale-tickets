@@ -77,8 +77,14 @@ export class BlocksStyleDirective implements OnInit, AfterViewInit, OnChanges {
   }
 
   initStyle(index: number) {
+    this.index = index;
     if(this.items[index]) {
       (this.items[index] as HTMLElement).setAttribute('style', 'border: 2px solid red');
     }
   }
-}
+
+  updateItems(): void {
+    this.items = this.el.nativeElement.querySelectorAll(this.selector);
+  }
+
+  }

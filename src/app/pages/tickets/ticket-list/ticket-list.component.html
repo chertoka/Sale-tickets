@@ -1,11 +1,15 @@
-<div *ngIf="tickets">
-
-<div *ngIf="isActive">
-  <p>Количествр элементов: {{tourWrap.childElementCount}}</p>
+<div>
+<ng-container *ngIf="loadCountBlock">
+  <p>Количество элементов: {{tickets.length}}</p>
   <p>Активный элемент: {{blockDirective.activeElementIndex}}</p>
-</div>
+</ng-container>
+
+  <div>
+    <input #ticketSearch [(ngModel)]="ticketSearchValue" type="text" pInputText />
+  </div>
 
 <div appBlocksStyle
+     *ngIf="tickets"
      #tourWrap
      #blockDirective='blockStyle'
      [selector]="'.ticket-item'"

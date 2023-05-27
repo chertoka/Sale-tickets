@@ -1,7 +1,5 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-
+import { Component, OnInit } from '@angular/core';
 import {AuthService} from "../../services/auth/auth.service";
-import {MessageService} from 'primeng/api';
 
 @Component({
   selector: 'app-auth',
@@ -10,13 +8,23 @@ import {MessageService} from 'primeng/api';
 })
 export class AuthComponent implements OnInit {
 
+  userName = 'Kate';
+
   constructor(private authService: AuthService) { }
   isTabCaching: boolean = false;
-  userName = 'Some name';
+  someObj: any;
+  obj = {a: 1};
+  textProp = "Kate"
 
 
   ngOnInit():void {
-    //this.someObj = this.obj;
+    this.someObj = this.obj;
   }
 
+  changeProp() {
+    this.someObj = {a: 1};
+    const randIndex = Math.random()
+    this.userName = "newValue" + randIndex
+    // this.textProp = "some data";
+  }
   }

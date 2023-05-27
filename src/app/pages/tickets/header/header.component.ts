@@ -13,8 +13,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   @Input() menuType: IMenuType;
   items: MenuItem[];
   time: Date;
-  user: IUser;
-  private settingsActive = true; //false?
+  user: IUser | null;
+  private settingsActive = false; //true?
   private timerInterval: number;
 
   constructor(private userService: UserService) {
@@ -22,6 +22,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.items = this.initMenuItems();
+
     this.items = [
       {
         label: 'Билеты',
@@ -35,7 +36,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       },
       {
         label: 'Настройки',
-        routerLink: ['/settings'],
+        routerLink: ['settings'], //было ['/settings']
         visible: this.settingsActive
       },
     ];
@@ -62,23 +63,27 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
   }
 
-  private initMenuItems() {
+  private initMenuItems(): MenuItem[] {
     return [
       {
         label: 'Билеты',
         routerLink: ['tickets-list']
-
       },
-      {
-        label: 'Выйти',
-        routerLink: ['/auth']
 
-      },
       {
         label: 'Настройки',
-        routerLink: ['/settings'],
+        routerLink: ['settings'], // было ['/settings']
         visible: this.settingsActive
       },
+
+      {
+        label: 'Выйти',
+        routerLink: ['/auth'],
+        command: () => {
+          this.userService.removeUser();
+        }
+      },
+
     ];
   }
 }

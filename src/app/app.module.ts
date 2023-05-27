@@ -1,11 +1,19 @@
-import { NgModule } from '@angular/core';
+import {APP_INITIALIZER, NgModule} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
 import {AppRoutingModule} from "./app-routing.module";
 import {AuthService} from "./services/auth/auth.service";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
+import {RestInterceptorsService} from "./services/interceptors/restInterceptors";
+import {ConfigService} from "./services/config/config.service";
+
+function initializeApp(config: ConfigService) {
+  return () => config.loadPromise().then(() => {
+    console.log('---CONFIG LOADED--', ConfigService.config)
+  });
+}
 
 @NgModule({
   declarations: [
@@ -18,7 +26,15 @@ import {HttpClientModule} from "@angular/common/http";
     AppRoutingModule,
     HttpClientModule
   ],
-  providers: [AuthService],
+  providers: [
+    //AuthService,
+    ConfigService,
+    {provide: APP_INITIALIZER,
+    useFactory: initializeApp,
+      deps: [ConfigService], multi: true
+    },
+    {provide: HTTP_INTERCEPTORS, useClass: RestInterceptorsService, multi: true},
+  ],
   bootstrap: [AppComponent]
 })
 

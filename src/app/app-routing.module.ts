@@ -12,13 +12,15 @@ const routes: Routes = [
     path: 'tickets',
     loadChildren: ()  => import('./pages/tickets/tickets.module').then(m => m.TicketsModule)
   },
+
+  /* перенесено в tickets-routing module.ts
   {
-    path: 'settings',
+    path: 'settings', //корневой маршрут удалить?
     loadChildren: () => import('./pages/settings/settings.module').then(m => m.SettingsModule)
-  },
+  }, */
 
   { path: '**',
-   redirectTo: 'auth'
+   redirectTo: 'tickets' //'auth' бдрл
   }
 ];
 

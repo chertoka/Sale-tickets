@@ -14,6 +14,11 @@ const routes: Routes = [
         path: 'ticket/:id',
         loadChildren: () => import('../tickets-info/tickets-info.module').then(m => m.TicketsInfoModule)
       },
+      {
+        path: 'settings', //корневой маршрут удалить?
+        loadChildren: () => import('../settings/settings.module').then(m => m.SettingsModule)
+      },
+
     ]
   },
 ];

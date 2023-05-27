@@ -10,6 +10,8 @@ import {MenubarModule} from "primeng/menubar";
 import { DropdownModule } from 'primeng/dropdown';
 import {FormsModule} from "@angular/forms";
 import {BlocksStyleDirective} from "../../directive/blocks-style.directive";
+import {CalendarModule} from "primeng/calendar";
+import {InputTextModule} from "primeng/inputtext";
 
 
 
@@ -28,7 +30,9 @@ import {BlocksStyleDirective} from "../../directive/blocks-style.directive";
     TicketsRoutingModule,
     MenubarModule,
     DropdownModule,
-    FormsModule
+    FormsModule,
+    CalendarModule,
+    InputTextModule
   ]
 })
 export class TicketsModule { }
