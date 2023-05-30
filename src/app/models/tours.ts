@@ -9,6 +9,14 @@ export interface ITour {
   date: string
 }
 
+export interface ITourClient {
+  name: string,
+  description: string,
+  tourOperator: string,
+  price: string,
+  img: string
+}
+
 export type TourType = 'Одиночный' | 'Групповой';
 
 export interface ITourTypeSelect {

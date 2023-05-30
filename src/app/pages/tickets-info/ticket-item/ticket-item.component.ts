@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {ICustomTicketData, INearestTour, ITour, ITourLocation} from "../../../models/tours";
+import {ICustomTicketData, ITour, ITourLocation} from "../../../models/tours";
 import {ActivatedRoute} from "@angular/router";
 import {TicketsStorageService} from "../../../services/tiсkets-storage/tiсkets-storage.service";
 import {IUser} from "../../../models/users";
@@ -7,6 +7,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {UserService} from "../../../services/user/user.service";
 import {forkJoin, fromEvent, Subscription} from "rxjs";
 import {TicketService} from "../../../services/tickets/tickets.service";
+import {IOrder} from "../../../models/order";
 
 
 @Component({
@@ -99,18 +100,26 @@ export class TicketItemComponent implements OnInit, AfterViewInit {
     });
   }
 
+  onSubmit(): void {}
+
   //запись данных из формы личной информации
   initTour(): void {
     //получаем данные
     const userData = this.userForm.getRawValue();
     //инфо о туре + личная
     const postData = {...this.ticket, ...userData};
-    this.ticketService.sendTourData(postData).subscribe()
-    // console.log('postData', postData)
-    // console.log('   this.userForm.getRawValue()', this.userForm.getRawValue())
-  }
 
-  onSubmit(): void {}
+    const userId = this.userService.getUser()?.id || null;
+    const postObj: IOrder = {
+      age: postData.age,
+      birthDay: postData.birthDay,
+      cardNumber: postData.cardNumber,
+      tourId: postData._id,
+      userId: userId,
+    }
+    this.ticketService.sendTourData(postObj).subscribe()
+
+  }
 
   selectDate(ev: Event): void {}
 

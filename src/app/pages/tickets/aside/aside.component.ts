@@ -1,8 +1,9 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {IMenuType} from "../../../models/menuType";
-import {ITourTypeSelect} from "../../../models/tours";
+import {ITour, ITourTypeSelect} from "../../../models/tours";
 import {TicketService} from "../../../services/tickets/tickets.service";
 import {SettingsService} from "../../../services/settings/settings.service";
+import {HttpClient} from "@angular/common/http";
 
 @Component({
   selector: 'app-aside',
@@ -23,7 +24,7 @@ export class AsideComponent implements OnInit {
   ]
 
   constructor(private ticketService: TicketService,
-              private settingsService: SettingsService) { }
+              private settingsService: SettingsService, private http: HttpClient) { }
 
   ngOnInit(): void {
     this.menuTypes = [
@@ -61,5 +62,19 @@ export class AsideComponent implements OnInit {
       saveToken: false
     });
   }
+
+  initTours(): void {
+    this.http.post<ITour[]>("http://localhost:3000/tours/", {}).subscribe((data) => {
+      this.ticketService.updateTicketList(data);
+    })
+  }
+
+  deleteTours(): void {
+    this.http.delete("http://localhost:3000/tours/remove").subscribe((data) => {
+      this.ticketService.updateTicketList([]);
+    })
+  }
+
+
 
 }
